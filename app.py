@@ -6,7 +6,41 @@ from flask import Flask, request, send_file, render_template_string
 app = Flask(__name__)
 BASE = 'https://www.ncbi.nlm.nih.gov/corecgi/tileshop/tileshop.fcgi'
 HEADERS = {'User-Agent': 'Mozilla/5.0 PMC-Figure-Downloader/0.1'}
-HTML = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PMC Figure Downloader</title><style>body{font:17px system-ui;max-width:720px;margin:5vh auto;padding:20px;line-height:1.5}input,button{font:inherit;box-sizing:border-box;padding:12px;width:100%;margin:6px 0 20px}button{background:#164b83;color:white;border:0;border-radius:6px;cursor:pointer}label{font-weight:600}.note{color:#555} .error{color:#a00}</style><h1>PMC High-Resolution Figure Downloader</h1><p>Paste a PMC tiled zoom-viewer URL. The server assembles full-resolution PNGs and downloads them as a ZIP. No installation required.</p>{% if error %}<p class="error">{{error}}</p>{% endif %}<form method="post" action="/download"><label for="url">PMC tiled viewer URL</label><input id="url" name="url" required value="{{url}}"><label for="figures">Figure numbers</label><input id="figures" name="figures" required value="{{figures}}"><p class="note">Examples: 1 3 4, 2-6, 1- (up to 100, stops after 3 missing figures)</p><button type="submit">Download PNG ZIP</button></form><p class="note">Prototype: tiled figures only. Processing may take a few minutes. Please respect PMC and article licensing terms.</p></html>'''
+HTML = '''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PMC Figure Downloader</title>
+<style>
+body{font:17px system-ui;max-width:720px;margin:5vh auto;padding:20px;line-height:1.5}
+input,button{font:inherit;box-sizing:border-box;padding:12px;width:100%;margin:6px 0 20px}
+button{background:#164b83;color:white;border:0;border-radius:6px;cursor:pointer}
+label{font-weight:600}.note{color:#555}.error{color:#a00}
+footer{border-top:1px solid #ddd;margin-top:32px;padding-top:12px;font-size:14px;color:#555}
+</style>
+</head>
+<body>
+<h1>PMC High-Resolution Figure Downloader</h1>
+<p>Download full-resolution PMC figures as PNGs, without installing software.</p>
+<ol>
+<li>Open a figure in the PMC zoom viewer and copy its URL.</li>
+<li>Paste the URL below and enter figures: <strong>1</strong>, <strong>1-3</strong>, or <strong>1-</strong> for all available.</li>
+<li>Click <strong>Download PNG ZIP</strong>.</li>
+</ol>
+{% if error %}<p class="error">{{error}}</p>{% endif %}
+<form method="post" action="/download">
+<label for="url">PMC tiled viewer URL</label>
+<input id="url" name="url" required value="{{url}}">
+<label for="figures">Figure numbers</label>
+<input id="figures" name="figures" required value="{{figures}}">
+<p class="note">Examples: 1 3 4, 2-6, 1- (up to 100, stops after 3 missing figures)</p>
+<button type="submit">Download PNG ZIP</button>
+</form>
+<p class="note">Tiled figures only. Processing may take a few minutes. Please respect PMC and article licensing terms.</p>
+<footer>Created by Kaveh Bazargan</footer>
+</body>
+</html>'''
 
 class MissingFigure(Exception): pass
 
