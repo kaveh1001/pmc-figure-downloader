@@ -11,37 +11,62 @@ HTML = '''<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PMC Figure Downloader</title>
+<title>PMC High-Resolution Figure Downloader</title>
 <style>
-body{font:17px system-ui;max-width:720px;margin:5vh auto;padding:20px;line-height:1.5}
-input,button{font:inherit;box-sizing:border-box;padding:12px;width:100%;margin:6px 0 20px}
-button{background:#164b83;color:white;border:0;border-radius:6px;cursor:pointer}
-label{font-weight:600}.note{color:#555}.error{color:#a00}
-footer{border-top:1px solid #ddd;margin-top:32px;padding-top:12px;font-size:14px;color:#555}
+:root{color-scheme:light}body{font:16px/1.55 system-ui,-apple-system,sans-serif;max-width:820px;margin:28px auto;padding:0 20px 36px;color:#182334;background:#fff}h1{font-size:clamp(26px,4vw,34px);line-height:1.2;margin-bottom:12px}h2{font-size:21px;margin:26px 0 10px}p{margin:10px 0}a{color:#14558e}a:hover{text-decoration:none}.intro{font-size:17px}.note{color:#536174;font-size:14px}.error{color:#a00;background:#fff0f0;padding:10px;border-radius:6px}.examples{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.example{border:1px solid #d9e0e8;border-radius:10px;overflow:hidden}.example svg{display:block;width:100%;height:auto;background:#edf3f8}.example .inside{padding:12px}.example p{font-size:14px;margin:5px 0}.supported{color:#167247}.unsupported{color:#775b37}form{padding:20px;border:1px solid #d5e0ed;background:#f7faff;border-radius:10px;margin:18px 0}label{display:block;font-weight:650;margin-top:10px}input,button{font:inherit;box-sizing:border-box;padding:11px;width:100%;margin:5px 0 10px;border-radius:6px}input{border:1px solid #9eafc0}button{background:#164b83;color:white;border:0;cursor:pointer;font-weight:650;margin-top:10px}button:hover{background:#103e6c}table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;border-bottom:1px solid #e2e7ed;padding:7px 10px}th{background:#f3f6fa}td:first-child{white-space:nowrap;width:30%}code{background:#eef2f7;padding:2px 5px;border-radius:4px}ol{padding-left:24px}footer{border-top:1px solid #ddd;margin-top:28px;padding-top:14px;font-size:14px;color:#536174}@media(max-width:540px){.examples{grid-template-columns:1fr}body{padding:0 14px}form{padding:14px}}
 </style>
 </head>
 <body>
 <h1>PMC High-Resolution Figure Downloader</h1>
-<p>Download full-resolution PMC figures as PNGs, without installing software.</p>
-<ol>
-<li>Open a figure in the PMC zoom viewer and copy its URL.</li>
-<li>Paste the URL below and enter figures: <strong>1</strong>, <strong>1-3</strong>, or <strong>1-</strong> for all available.</li>
-<li>Click <strong>Download PNG ZIP</strong>.</li>
-</ol>
+<p class="intro">Some figures in PubMed Central (PMC) are divided into <strong>hundreds of small image tiles</strong>. This lets readers zoom smoothly into large images without downloading the entire figure.</p>
+<p><strong>The tiled version is often the highest-resolution version available through PMC.</strong> This free tool retrieves the tiles and assembles them into a single high-resolution PNG.</p>
+<p class="note">No installation required. Works on Mac, Windows, Linux and mobile devices with a modern browser.</p>
+<h2>Tiled versus non-tiled figures</h2>
+<div class="examples">
+  <div class="example">
+    <svg viewBox="0 0 360 175" role="img" aria-label="Illustration of a scientific figure divided into many small image tiles">
+      <defs><linearGradient id="tilebg" x2="1" y2="1"><stop stop-color="#e1edf8"/><stop offset="1" stop-color="#a4c1d8"/></linearGradient></defs>
+      <rect width="360" height="175" fill="url(#tilebg)"/><g fill="none" stroke="#496b87" stroke-width="2"><path d="M15 143 Q60 120 85 77 T157 85 T230 51 T342 39"/><path d="M16 122 Q60 146 100 118 T190 106 T290 80 T345 106"/></g>
+      <g stroke="#fff" stroke-width="1" opacity=".9"><path d="M36 0V175 M72 0V175 M108 0V175 M144 0V175 M180 0V175 M216 0V175 M252 0V175 M288 0V175 M324 0V175"/><path d="M0 35H360 M0 70H360 M0 105H360 M0 140H360"/></g>
+      <rect x="12" y="10" width="116" height="26" rx="5" fill="#fff" opacity=".95"/><text x="22" y="28" font-size="13" fill="#173b59">Many image tiles</text>
+    </svg>
+    <div class="inside"><strong class="supported">Tiled figure — Supported</strong><p>Opens in PMC's interactive zoom viewer.</p><a href="https://www.ncbi.nlm.nih.gov/core/lw/2.0/html/tileshop_pmc/tileshop_pmc_inline.html?title=Click%20on%20image%20to%20zoom&amp;p=PMC3&amp;id=13085302_13046_2026_3695_Fig1_HTML.jpg" target="_blank" rel="noopener">View PMC example ↗</a></div>
+  </div>
+  <div class="example">
+    <svg viewBox="0 0 360 175" role="img" aria-label="Illustration of a single non-tiled scientific figure image">
+      <rect width="360" height="175" fill="#edf3f8"/><rect x="38" y="13" width="284" height="149" rx="5" fill="#c6d8e5" stroke="#9cb5c8"/><g fill="none" stroke="#496b87" stroke-width="2"><path d="M49 140 Q90 116 116 76 T186 86 T258 51 T312 41"/><path d="M49 122 Q96 147 135 117 T218 107 T309 89"/></g><rect x="49" y="22" width="113" height="26" rx="5" fill="#fff" opacity=".95"/><text x="59" y="40" font-size="13" fill="#173b59">Single image</text>
+    </svg>
+    <div class="inside"><strong class="unsupported">Non-tiled figure — Not supported</strong><p>Delivered as an ordinary image file.</p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2587244/figure/F3/" target="_blank" rel="noopener">View PMC example ↗</a></div>
+  </div>
+</div>
+<h2>Download figures</h2>
 {% if error %}<p class="error">{{error}}</p>{% endif %}
 <form method="post" action="/download">
-<label for="url">PMC tiled viewer URL</label>
-<input id="url" name="url" required value="{{url}}">
-<label for="figures">Figure numbers</label>
-<input id="figures" name="figures" required value="{{figures}}">
-<p class="note">Examples: 1 3 4, 2-6, 1- (up to 100, stops after 3 missing figures)</p>
-<button type="submit">Download PNG ZIP</button>
+  <label for="url">PMC tiled-viewer URL</label>
+  <input id="url" name="url" required value="{{url}}" aria-describedby="url-help">
+  <p id="url-help" class="note">Open a figure in PMC's tiled zoom viewer and copy the address from your browser.</p>
+  <label for="figures">Figure numbers</label>
+  <input id="figures" name="figures" required value="{{figures}}" aria-describedby="fig-help">
+  <p id="fig-help" class="note">Examples: <code>1 3 5</code>, <code>2-5</code>, <code>3-</code>, <code>1-3 5 7-9</code></p>
+  <button type="submit">Download PNG ZIP</button>
 </form>
-<p class="note">Tiled figures only. Processing may take a few minutes. Please respect PMC and article licensing terms.</p>
-<footer>Created by Kaveh Bazargan</footer>
+<h2>How to use</h2>
+<ol><li>Open a PMC figure in its tiled zoom viewer.</li><li>Copy the viewer URL and paste it above.</li><li>Specify the figures you want using the examples below.</li><li>Click <strong>Download PNG ZIP</strong>.</li></ol>
+<h2>Selecting figures</h2>
+<table><thead><tr><th>Enter</th><th>Downloads</th></tr></thead><tbody>
+<tr><td><code>3</code></td><td>Figure 3</td></tr>
+<tr><td><code>1 3 5</code></td><td>Figures 1, 3 and 5</td></tr>
+<tr><td><code>2-5</code></td><td>Figures 2 through 5</td></tr>
+<tr><td><code>3-</code></td><td>Figure 3 and all following available figures</td></tr>
+<tr><td><code>1-</code></td><td>All available figures from Figure 1</td></tr>
+<tr><td><code>1-3 5 7-9</code></td><td>Figures 1, 2, 3, 5, 7, 8 and 9</td></tr>
+<tr><td><code>1 3 5-</code></td><td>Figures 1 and 3, then Figure 5 onwards</td></tr>
+</tbody></table>
+<p class="note">Separate selections with spaces. Combine individual numbers, ranges and open-ended ranges. Open-ended ranges stop after three consecutive missing figures (maximum 100 attempted numbers).</p>
+<p class="note">The ZIP contains reconstructed PNG figures and a download report. Only supported PMC tiled-viewer figures can be reconstructed. Please respect the applicable article and figure licences. Processing may take a few minutes.</p>
+<footer>Created by <strong>Kaveh Bazargan</strong> · <a href="mailto:kaveh1000@gmail.com">kaveh1000@gmail.com</a></footer>
 </body>
 </html>'''
-
 class MissingFigure(Exception): pass
 
 def parse_url(url):
